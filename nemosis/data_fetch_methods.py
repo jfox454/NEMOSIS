@@ -346,7 +346,7 @@ def _get_read_function(fformat, table_type, day):
         elif table_type == "FCAS":
             func = _read_fcas_causer_pays_csv
         elif table_type == "FCAS_FI":
-            func = _read_fcas_fi_csv
+            func = _read_mms_csv
         elif table_type == "BIDDING":
             if day is None:
                 func = _read_mms_csv
