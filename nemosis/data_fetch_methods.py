@@ -390,8 +390,9 @@ def _read_fcas_causer_pays_csv(
 def _read_fcas_fi_csv(
     path_and_name, dtype=None, usecols=None, nrows=None, names=None
 ):
+    # skip the first row because the FI file contains a C row then an I row then the D rows
     data = _pd.read_csv(
-        path_and_name, dtype=dtype, usecols=usecols, nrows=nrows, names=names
+        path_and_name, dtype=dtype, usecols=usecols, nrows=nrows, names=names, skiprows=1, header=1
     )
     return data
 
@@ -602,7 +603,6 @@ def _dynamic_data_fetch_loop(
                 read_all_columns=read_all_columns,
                 dtypes=dtypes,
             )
-            logger.warning(data)
             logger.warning(data.head())
 
             if caching_mode:
@@ -719,7 +719,7 @@ def _determine_columns_and_read_csv(
     else:
         type = str
     if (
-        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD", "FCAS_4_SECOND_FI"]
+        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD"]
         and not read_all_columns
     ):
         headers = read_csv_func(csv_file, nrows=1).columns.tolist()
@@ -730,7 +730,7 @@ def _determine_columns_and_read_csv(
         ]
         data = read_csv_func(csv_file, usecols=columns, dtype=type)
     elif (
-        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD", "FCAS_4_SECOND_FI"]
+        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD"]
         and read_all_columns
     ):
         data = read_csv_func(csv_file, dtype=type)
