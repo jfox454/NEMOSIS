@@ -602,6 +602,8 @@ def _dynamic_data_fetch_loop(
                 read_all_columns=read_all_columns,
                 dtypes=dtypes,
             )
+            logger.warning(data)
+            logger.warning(data.head())
 
             if caching_mode:
                 data = _perform_column_selection(data, select_columns, full_filename)
