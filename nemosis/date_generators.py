@@ -158,7 +158,14 @@ def current_gen(start_time, end_time):
 
 def fcas_fi(start_time, end_time):
 
-    start_time = start_time - timedelta(days=1)
+    # the FCAS FI files are published with a filemask timestamp of the time of publishing, but the data
+    # within the file is from the previous half hour.
+    # e.g. filemask = PUBLIC_CAUSER_PAYS_SCADA_20210701040745_0000000344685328.zip
+    # filemask = 20210701040745
+    # but the data in this file is from 03:30 to 04:00 on 2021/07/01
+    # Therefore need to subtract half an hour from the start time to get the correct start time
+
+    start_time = start_time - timedelta(minutes=30)
 
     end_year = end_time.year
     start_year = start_time.year
