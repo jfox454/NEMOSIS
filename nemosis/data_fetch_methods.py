@@ -533,7 +533,6 @@ def _dynamic_data_fetch_loop(
         filename_stub, full_filename, path_and_name = _create_filename(
             table_name, table_type, raw_data_location, fformat, day, month, year, index
         )
-        logger.warning(f"full_filename {full_filename}.")
 
         if not (
             _glob.glob(full_filename) or _glob.glob(path_and_name + ".[cC][sS][vV]")
@@ -548,7 +547,6 @@ def _dynamic_data_fetch_loop(
                 index,
                 raw_data_location,
             )
-            logger.warning(f"downloaded data.")
 
         if _glob.glob(full_filename) and fformat != "csv" and not rebuild:
             if not caching_mode:
@@ -559,7 +557,6 @@ def _dynamic_data_fetch_loop(
                     f"Cache for {table_name} in date range already compiled in"
                     + f" {raw_data_location}."
                 )
-            logger.warning(f"non csv.")
 
         elif _glob.glob(path_and_name + ".[cC][sS][vV]"):
 
@@ -588,8 +585,6 @@ def _dynamic_data_fetch_loop(
 
             if caching_mode:
                 data = _perform_column_selection(data, select_columns, full_filename)
-
-            logger.warning(f"csv.")
 
             if data is not None and fformat != "csv":
                 _log_file_creation_message(fformat, table_name, year, month, day, index)
