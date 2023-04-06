@@ -183,6 +183,12 @@ def fcas_fi(start_time, end_time):
     end_year = end_time.year
     start_year = start_time.year
 
+    # go to nemweb and get all the links on the page
+    url = defaults.nem_web_domain_url + defaults.current_data_page_urls["FCAS_FI"]
+    r = requests.get(url, headers=USR_AGENT_HEADER)
+    soup = BeautifulSoup(r.content, "html.parser")
+    links = [link.get("href") for link in soup.find_all("a")]
+
     for year in range(start_year, end_year + 1):
 
         if year == end_year:
@@ -220,11 +226,7 @@ def fcas_fi(start_time, end_time):
                         and end_time.day == day
                     ):
                         continue
-                    # go to nemweb and find the file mask within the range
-                    url = defaults.nem_web_domain_url + defaults.current_data_page_urls["FCAS_FI"]
-                    r = requests.get(url, headers=USR_AGENT_HEADER)
-                    soup = BeautifulSoup(r.content, "html.parser")
-                    links = [link.get("href") for link in soup.find_all("a")]
+                    # match the link on the page with the file mask stub link
                     stub_link = "PUBLIC_CAUSER_PAYS_SCADA_{year}{month}{day}{hour}".format(year=year, month=month, day=day, hour=hour)
                     for link in links:
                         if stub_link in link:
