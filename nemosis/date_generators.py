@@ -2,8 +2,18 @@ import logging
 from . import defaults
 from calendar import monthrange
 from datetime import timedelta
+import requests
+from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
+
+USR_AGENT_HEADER = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        + " AppleWebKit/537.36 (KHTML, like Gecko) "
+        + "Chrome/80.0.3987.87 Safari/537.36"
+    )
+}
 
 def year_and_month_gen(start_time, end_time):
 
@@ -167,6 +177,9 @@ def fcas_fi(start_time, end_time):
 
     start_time = start_time - timedelta(minutes=30)
 
+    # add some buffer to the end time as well
+    end_time = end_time + timedelta(minutes=30)
+
     end_year = end_time.year
     start_year = start_time.year
 
@@ -207,7 +220,16 @@ def fcas_fi(start_time, end_time):
                         and end_time.day == day
                     ):
                         continue
-                    for minute in range(55, -1, -1):
-                        index = str(hour).zfill(2) + str(minute).zfill(2)
-                        yield str(year), month, str(day).zfill(2), index
-                    
+                    # go to nemweb and find the file mask within the range
+                    url = defaults.nem_web_domain_url + defaults.current_data_page_urls["FCAS_FI"]
+                    r = requests.get(url, headers=USR_AGENT_HEADER)
+                    soup = BeautifulSoup(r.content, "html.parser")
+                    links = [link.get("href") for link in soup.find_all("a")]
+                    stub_link = "PUBLIC_CAUSER_PAYS_SCADA_{year}{month}{day}{hour}".format(year=year, month=month, day=day, hour=hour)
+                    for link in links:
+                        if stub_link in link:
+                            # the link is like this:
+                            # /Reports/Current/Causer_Pays_Scada/PUBLIC_CAUSER_PAYS_SCADA_20230325123425_0000000383499448.zip
+                            index = str(hour).zfill(2) + link[70:73]
+                            yield str(year), month, str(day).zfill(2), index
+                    logger.warning(f"{stub_link} not downloaded")
