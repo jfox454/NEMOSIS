@@ -134,7 +134,8 @@ aemo_mms_url = "http://www.nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSD
 current_data_page_urls = {
     "BIDDING": "Reports/Current/Bidmove_Complete/",
     "DAILY_REGION_SUMMARY": "/Reports/Current/Daily_Reports/",
-    "NEXT_DAY_DISPATCHLOAD": "/Reports/Current/NEXT_DAY_DISPATCH/"
+    "NEXT_DAY_DISPATCHLOAD": "/Reports/Current/NEXT_DAY_DISPATCH/",
+    "FCAS_FI": "/Reports/Current/Causer_Pays_Scada/",
 }
 
 fcas_4_url = "http://www.nemweb.com.au/Reports/Current/Causer_Pays/FCAS_{}{}{}{}.zip"

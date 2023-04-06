@@ -238,7 +238,7 @@ date_gen = {
     "BIDDING": date_generators.bid_table_gen,
     "DAILY_REGION_SUMMARY": date_generators.current_gen,
     "FCAS": date_generators.year_month_day_index_gen,
-    "FCAS_FI": date_generators.year_month_day_index_gen,
+    "FCAS_FI": date_generators.fcas_fi,
 }
 
 write_filename = {

@@ -213,20 +213,16 @@ def run_fcas4s(year, month, day, index, filename_stub, down_load_to):
 
 def run_fcas4s_fi(year, month, day, index, filename_stub, down_load_to):
     """This function"""
-
-    # Add the year and month information to the generic AEMO data url
-    url_formatted_latest = defaults.fcas_4_fi_url.format(year, month, day, index)
-    
-    # Perform the download, unzipping saving of the file
+       
     try:
-        download_unzip_csv(url_formatted_latest, down_load_to)
+        filename_stub = "PUBLIC_CAUSER_PAYS_SCADA_{year}{month}{day}{index}".format(year=year, month=month, day=day, index=index)
+        download_url = _get_current_url(
+            filename_stub,
+            defaults.current_data_page_urls["FCAS_FI"])
+        download_unzip_csv(download_url, down_load_to)
     except Exception:
-        # FCAS csvs are bundled in 30 minute bundles
-        # Check if the csv exists before warning
-        file_check = os.path.join(down_load_to, filename_stub + ".csv")
-        if not os.path.isfile(file_check):
-            logger.warning(f"{filename_stub} not downloaded")
-                   
+        logger.warning(f"{filename_stub} not downloaded")
+
 
 def download_unzip_csv(url, down_load_to):
     """
