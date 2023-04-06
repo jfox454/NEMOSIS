@@ -387,16 +387,6 @@ def _read_fcas_causer_pays_csv(
     return data
 
 
-def _read_fcas_fi_csv(
-    path_and_name, dtype=None, usecols=None, nrows=None, names=None
-):
-    # skip the first row because the FI file contains a C row then an I row then the D rows
-    data = _pd.read_csv(
-        path_and_name, dtype=dtype, usecols=usecols, nrows=nrows, names=names, skiprows=1, header=1
-    )
-    return data
-
-
 def _read_static_csv(path_and_name, table_name):
     return _pd.read_csv(
         path_and_name, dtype=str, names=_defaults.table_columns[table_name]
@@ -540,18 +530,9 @@ def _dynamic_data_fetch_loop(
     date_gen = _processing_info_maps.date_gen[table_type](start_search, end_time)
 
     for year, month, day, index in date_gen:
-        logger.warning(f"Year {year}.")
-        logger.warning(f"Month {month}.")
-        logger.warning(f"Day {day}.")
-        logger.warning(f"Index {index}.")
         filename_stub, full_filename, path_and_name = _create_filename(
             table_name, table_type, raw_data_location, fformat, day, month, year, index
         )
-        logger.warning(f"filename_stub {filename_stub}.")
-        logger.warning(f"full_filename {full_filename}.")
-        logger.warning(f"path_and_name {path_and_name}.")
-        logger.warning(f"table_name {table_name}.")
-        logger.warning(f"table_type {table_type}.")
 
         if not (
             _glob.glob(full_filename) or _glob.glob(path_and_name + ".[cC][sS][vV]")
@@ -566,7 +547,6 @@ def _dynamic_data_fetch_loop(
                 index,
                 raw_data_location,
             )
-            logger.warning(f"download_data.")
 
         if _glob.glob(full_filename) and fformat != "csv" and not rebuild:
             if not caching_mode:
@@ -577,7 +557,6 @@ def _dynamic_data_fetch_loop(
                     f"Cache for {table_name} in date range already compiled in"
                     + f" {raw_data_location}."
                 )
-            logger.warning(f"cache_mode.")
 
         elif _glob.glob(path_and_name + ".[cC][sS][vV]"):
 
@@ -603,7 +582,6 @@ def _dynamic_data_fetch_loop(
                 read_all_columns=read_all_columns,
                 dtypes=dtypes,
             )
-            logger.warning(data.head())
 
             if caching_mode:
                 data = _perform_column_selection(data, select_columns, full_filename)
