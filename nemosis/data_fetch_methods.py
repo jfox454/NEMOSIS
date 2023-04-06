@@ -719,7 +719,7 @@ def _determine_columns_and_read_csv(
     else:
         type = str
     if (
-        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD"]
+        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD", "FCAS_FI"]
         and not read_all_columns
     ):
         headers = read_csv_func(csv_file, nrows=1).columns.tolist()
@@ -730,7 +730,7 @@ def _determine_columns_and_read_csv(
         ]
         data = read_csv_func(csv_file, usecols=columns, dtype=type)
     elif (
-        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD"]
+        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD", "FCAS_FI"]
         and read_all_columns
     ):
         data = read_csv_func(csv_file, dtype=type)
