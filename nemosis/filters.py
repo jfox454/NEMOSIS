@@ -56,6 +56,27 @@ def filter_on_timestamp(data, start_time, end_time):
     return data
 
 
+def filter_on_measurementtime(data, start_time, end_time):
+    try:
+        data["MEASUREMENTTIME"] = pd.to_datetime(
+            data["MEASUREMENTTIME"], format="%Y/%m/%d %H:%M:%S"
+        )
+    except Exception as e:
+        logger.error(e)
+        # if date format is wrong, str may be too short
+        med_str_len = np.median(data["MEASUREMENTTIME"].str.len())
+        not_data = data.loc[data["MEASUREMENTTIME"].str.len() < med_str_len, :]
+        data = data.loc[data["MEASUREMENTTIME"].str.len() >= med_str_len, :]
+        data["MEASUREMENTTIME"] = pd.to_datetime(
+            data["MEASUREMENTTIME"], format="%Y/%m/%d %H:%M:%S"
+        )
+        logger.warning("Rows with incorrect data formats omitted")
+        logger.warning(not_data)
+    finally:
+        data = data[(data["MEASUREMENTTIME"] > start_time) & (data["MEASUREMENTTIME"] <= end_time)]
+    return data   
+
+
 def filter_on_interval_datetime(data, start_time, end_time):
     data["INTERVAL_DATETIME"] = pd.to_datetime(
         data["INTERVAL_DATETIME"], format="%Y/%m/%d %H:%M:%S"

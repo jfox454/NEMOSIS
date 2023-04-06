@@ -16,6 +16,7 @@ names = {
     "BIDDAYOFFER_D": "PUBLIC_DVD_BIDDAYOFFER_D",
     "DISPATCHREGIONSUM": "PUBLIC_DVD_DISPATCHREGIONSUM",
     "FCAS_4_SECOND": "FCAS",
+    "FCAS_4_SECOND_FI": "PUBLIC_CAUSER_PAYS_SCADA",
     "ELEMENTS_FCAS_4_SECOND": "Elements_FCAS.csv",
     "VARIABLES_FCAS_4_SECOND": "Ancillary Services Market Causer Pays Variables File.csv",
     "Generators and Scheduled Loads": "NEM Registration and Exemption List.xls",
@@ -54,6 +55,7 @@ table_types = {
     "BIDDAYOFFER_D": "BIDDING",
     "DISPATCHREGIONSUM": "MMS",
     "FCAS_4_SECOND": "FCAS",
+    "FCAS_4_SECOND_FI": "FCAS_FI",
     "ELEMENTS_FCAS_4_SECOND": "STATIC",
     "VARIABLES_FCAS_4_SECOND": "STATIC",
     "Generators and Scheduled Loads": "STATICXL",
@@ -76,7 +78,7 @@ table_types = {
 dynamic_tables = [
     table
     for table, type in table_types.items()
-    if type in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD", "FCAS"]
+    if type in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD", "FCAS", "FCAS_FI"]
 ]
 
 return_tables = list(names.keys())
@@ -99,6 +101,7 @@ display_as_AMEO = [
     "BIDDAYOFFER_D",
     "DISPATCHREGIONSUM",
     "FCAS_4_SECOND",
+    "FCAS_4_SECOND_FI",
     "ELEMENTS_FCAS_4_SECOND",
     "VARIABLES_FCAS_4_SECOND",
     "Generators and Scheduled Loads",
@@ -138,6 +141,8 @@ fcas_4_url = "http://www.nemweb.com.au/Reports/Current/Causer_Pays/FCAS_{}{}{}{}
 
 fcas_4_url_hist = "http://www.nemweb.com.au/Data_Archive/Wholesale_Electricity/FCAS_Causer_Pays/{}/FCAS_Causer_Pays_{}_{}/FCAS_{}{}{}{}.zip"
 
+fcas_4_fi_url = "http://nemweb.com.au/Reports/Current/Causer_Pays_Scada/PUBLIC_CAUSER_PAYS_SCADA_{}{}{}{}.zip"
+
 data_url = {
     "DISPATCHLOAD": "aemo_data_url",
     "DUDETAILSUMMARY": "aemo_data_url",
@@ -162,6 +167,7 @@ data_url = {
     "LOSSFACTORMODEL": "aemo_data_url",
     "DISPATCHCASESOLUTION": "aemo_data_url",
     "FCAS": "fcas_4_url",
+    "FCAS_FI": "fcas_4_fi_url",
     "TRADINGLOAD": "aemo_data_url",
     "TRADINGPRICE": "aemo_data_url",
     "TRADINGREGIONSUM": "aemo_data_url",
@@ -210,6 +216,7 @@ filterable_cols = [
     "Max Lower Angle",
     "Max Upper Angle",
     "Bid Type",
+    "NETWORKID",
 ]
 
 table_columns = {
@@ -591,6 +598,12 @@ table_columns = {
         "VALUE",
         "VALUEQUALITY",
     ],
+    "FCAS_4_SECOND_FI": [
+        "MEASUREMENTTIME",
+        "NETWORKID",
+        "FREQUENCYDEVIATION",
+        "FI",
+    ],
     "ELEMENTS_FCAS_4_SECOND": [
         "ELEMENTNUMBER",
         "EMSNAME",
@@ -737,6 +750,7 @@ table_primary_keys = {
     "NEXT_DAY_DISPATCHLOAD": ["SETTLEMENTDATE", "INTERVENTION", "DUID"],
     "DISPATCH_UNIT_SCADA": ["SETTLEMENTDATE", "DUID"],
     "FCAS_4_SECOND": ["TIMESTAMP", "ELEMENTNUMBER", "VARIABLENUMBER"],
+    "FCAS_4_SECOND_FI": ["MEASUREMENTTIME", "NETWORKID"],
     "ELEMENTS_FCAS_4_SECOND": ["ELEMENTNUMBER"],
     "VARIABLES_FCAS_4_SECOND": ["VARIABLENUMBER", "VARIABLETYPE"],
     "Generators and Scheduled Loads": ["DUID"],
@@ -793,6 +807,7 @@ primary_date_columns = {
     "BIDDAYOFFER_D": "SETTLEMENTDATE",
     "DISPATCHREGIONSUM": "SETTLEMENTDATE",
     "FCAS_4_SECOND": "TIMESTAMP",
+    "FCAS_4_SECOND_FI": "MEASUREMENTTIME",
     "ELEMENTS_FCAS_4_SECOND": None,
     "VARIABLES_FCAS_4_SECOND": None,
     "Generators and Scheduled Loads": None,

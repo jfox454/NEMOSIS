@@ -26,6 +26,7 @@ setup = {
     "SPDCONNECTIONPOINTCONSTRAINT": None,
     "SPDINTERCONNECTORCONSTRAINT": None,
     "FCAS_4_SECOND": None,
+    "FCAS_4_SECOND_FI": None,
     "ELEMENTS_FCAS_4_SECOND": None,
     "VARIABLES_FCAS_4_SECOND": None,
     "Generators and Scheduled Loads": None,
@@ -62,6 +63,7 @@ search_type = {
     "SPDCONNECTIONPOINTCONSTRAINT": "all",
     "SPDINTERCONNECTORCONSTRAINT": "all",
     "FCAS_4_SECOND": "start_to_end",
+    "FCAS_4_SECOND_FI": "start_to_end",
     "ELEMENTS_FCAS_4_SECOND": None,
     "VARIABLES_FCAS_4_SECOND": None,
     "Generators and Scheduled Loads": None,
@@ -98,6 +100,7 @@ date_cols = {
     "SPDCONNECTIONPOINTCONSTRAINT": ["EFFECTIVEDATE"],
     "SPDINTERCONNECTORCONSTRAINT": ["EFFECTIVEDATE"],
     "FCAS_4_SECOND": ["TIMESTAMP"],
+    "FCAS_4_SECOND_FI": ["MEASUREMENTTIME"],
     "ELEMENTS_FCAS_4_SECOND": None,
     "VARIABLES_FCAS_4_SECOND": None,
     "Generators and Scheduled Loads": None,
@@ -134,6 +137,7 @@ filter = {
     "SPDCONNECTIONPOINTCONSTRAINT": filters.filter_on_effective_date,
     "SPDINTERCONNECTORCONSTRAINT": filters.filter_on_effective_date,
     "FCAS_4_SECOND": filters.filter_on_timestamp,
+    "FCAS_4_SECOND_FI": filters.filter_on_measurementtime,
     "ELEMENTS_FCAS_4_SECOND": None,
     "VARIABLES_FCAS_4_SECOND": None,
     "Generators and Scheduled Loads": None,
@@ -187,6 +191,7 @@ finalise = {
         query_wrappers.drop_duplicates_by_primary_key,
     ],
     "FCAS_4_SECOND": [query_wrappers.fcas4s_finalise],
+    "FCAS_4_SECOND_FI": [query_wrappers.fcas4s_finalise],
     "ELEMENTS_FCAS_4_SECOND": None,
     "VARIABLES_FCAS_4_SECOND": None,
     "Generators and Scheduled Loads": None,
@@ -233,6 +238,7 @@ date_gen = {
     "BIDDING": date_generators.bid_table_gen,
     "DAILY_REGION_SUMMARY": date_generators.current_gen,
     "FCAS": date_generators.year_month_day_index_gen,
+    "FCAS_FI": date_generators.year_month_day_index_gen,
 }
 
 write_filename = {
@@ -241,6 +247,7 @@ write_filename = {
     "BIDDING": write_file_names.write_file_names_mms_and_current,
     "DAILY_REGION_SUMMARY": write_file_names.write_file_names_mms_and_current,
     "FCAS": write_file_names.write_file_names_fcas,
+    "FCAS_FI": write_file_names.write_file_names_fcas,
 }
 
 downloader = {
@@ -249,4 +256,5 @@ downloader = {
     "BIDDING": downloader.run_bid_tables,
     "DAILY_REGION_SUMMARY": downloader.run_next_day_region_tables,
     "FCAS": downloader.run_fcas4s,
+    "FCAS_FI": downloader.run_fcas4s_fi,
 }

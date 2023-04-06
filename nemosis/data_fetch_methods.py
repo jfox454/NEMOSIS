@@ -846,6 +846,7 @@ _method_map = {
     "SPDCONNECTIONPOINTCONSTRAINT": _dynamic_data_wrapper_for_gui,
     "SPDINTERCONNECTORCONSTRAINT": _dynamic_data_wrapper_for_gui,
     "FCAS_4_SECOND": _dynamic_data_wrapper_for_gui,
+    "FCAS_4_SECOND_FI": _dynamic_data_wrapper_for_gui,
     "ELEMENTS_FCAS_4_SECOND": _static_table_wrapper_for_gui,
     "VARIABLES_FCAS_4_SECOND": _static_table_wrapper_for_gui,
     "Generators and Scheduled Loads": _static_table_wrapper_for_gui,
