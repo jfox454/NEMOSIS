@@ -207,5 +207,7 @@ def fcas_fi(start_time, end_time):
                         and end_time.day == day
                     ):
                         continue
-                    yield str(year), month, str(day).zfill(2), str(hour).zfill(2)
+                    for minute in range(55, -1, -1):
+                        index = str(hour).zfill(2) + str(minute).zfill(2)
+                        yield str(year), month, str(day).zfill(2), index
                     
