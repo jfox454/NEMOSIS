@@ -232,4 +232,4 @@ def fcas_fi(start_time, end_time):
                             # /Reports/Current/Causer_Pays_Scada/PUBLIC_CAUSER_PAYS_SCADA_20230325123425_0000000383499448.zip
                             index = str(hour).zfill(2) + link[70:91]
                             yield str(year), month, str(day).zfill(2), index
-                    logger.warning(f"{stub_link} not downloaded")
+                    

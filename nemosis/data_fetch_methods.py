@@ -533,6 +533,10 @@ def _dynamic_data_fetch_loop(
         filename_stub, full_filename, path_and_name = _create_filename(
             table_name, table_type, raw_data_location, fformat, day, month, year, index
         )
+        logger.warning(f"year {year}.")
+        logger.warning(f"month {month}.")
+        logger.warning(f"day {day}.")
+        logger.warning(f"index {index}.")
 
         if not (
             _glob.glob(full_filename) or _glob.glob(path_and_name + ".[cC][sS][vV]")
