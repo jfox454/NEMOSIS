@@ -345,6 +345,8 @@ def _get_read_function(fformat, table_type, day):
             func = _read_mms_csv
         elif table_type == "FCAS":
             func = _read_fcas_causer_pays_csv
+        elif table_type == "FCAS_FI":
+            func = _read_fcas_fi_csv
         elif table_type == "BIDDING":
             if day is None:
                 func = _read_mms_csv
@@ -377,6 +379,15 @@ def _read_constructed_csv(
 
 
 def _read_fcas_causer_pays_csv(
+    path_and_name, dtype=None, usecols=None, nrows=None, names=None
+):
+    data = _pd.read_csv(
+        path_and_name, dtype=dtype, usecols=usecols, nrows=nrows, names=names
+    )
+    return data
+
+
+def _read_fcas_fi_csv(
     path_and_name, dtype=None, usecols=None, nrows=None, names=None
 ):
     data = _pd.read_csv(
@@ -695,7 +706,7 @@ def _determine_columns_and_read_csv(
     else:
         type = str
     if (
-        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD"]
+        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD", "FCAS_4_SECOND_FI"]
         and not read_all_columns
     ):
         headers = read_csv_func(csv_file, nrows=1).columns.tolist()
@@ -706,7 +717,7 @@ def _determine_columns_and_read_csv(
         ]
         data = read_csv_func(csv_file, usecols=columns, dtype=type)
     elif (
-        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD"]
+        _defaults.table_types[table_name] in ["MMS", "BIDDING", "DAILY_REGION_SUMMARY", "NEXT_DAY_DISPATCHLOAD", "FCAS_4_SECOND_FI"]
         and read_all_columns
     ):
         data = read_csv_func(csv_file, dtype=type)
