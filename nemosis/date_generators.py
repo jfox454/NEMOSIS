@@ -228,7 +228,7 @@ def fcas_fi(start_time, end_time):
                         continue
                     # match the link on the page with the file mask stub link
                     stub_link = "PUBLIC_CAUSER_PAYS_SCADA_{year}{month}{day}{hour}".format(year=year, month=month, day=day, hour=str(hour).zfill(2))
-                    logger.warning(f"stub_link = {stub_link}")
+                    #logger.warning(f"stub_link = {stub_link}")
                     for link in links:
                         if stub_link in link:
                             # the link is like this:
